@@ -405,6 +405,16 @@ a {
     width: 23px;
     height: 23px;
   }
+
+  .lang-dropdown-wrap {
+    order: 10;
+  }
+
+  .lang-menu {
+    right: 0;
+    left: auto;
+    width: min(230px, calc(100vw - 2rem));
+  }
 }
 
 /* =========================================================
