@@ -1,0 +1,161 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import PwaModal from '../components/PwaModal.astro';
+import {
+  DEFAULT_LOCALE,
+  getLocalizedHref,
+  LANGUAGES,
+  SSR_TRANSLATIONS,
+  tServer,
+  type LocaleCode,
+  type TranslationKey,
+} from '../i18n/ssr';
+
+interface Props {
+  locale?: LocaleCode;
+  routePath?: '/' | '/how-it-works/' | '/privacy/' | '/faq/';
+  title: string;
+  description: string;
+  metaTitleKey: TranslationKey;
+  metaDescKey: TranslationKey;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  locale = DEFAULT_LOCALE,
+  routePath = '/',
+  title,
+  description,
+  metaTitleKey,
+  metaDescKey,
+  jsonLd,
+} = Astro.props;
+
+const SITE = 'https://video-to-frames.github.io';
+const canonicalPath = getLocalizedHref(locale, routePath);
+const canonicalUrl = new URL(canonicalPath, SITE).toString();
+const xDefaultUrl = new URL(getLocalizedHref('en', routePath), SITE).toString();
+const ogImageUrl = `${SITE}/og-image.png`;
+const ogImageAlt = tServer(locale, 'nav.ogImageAlt');
+const langMeta = LANGUAGES.find((l) => l.code === locale) ?? LANGUAGES[0];
+const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<!doctype html>
+<html lang={locale} data-page-locale={locale} data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Multilingual Hreflang Alternates -->
+    <link rel="alternate" hreflang="x-default" href={xDefaultUrl} />
+    {LANGUAGES.map((lang) => (
+      <link
+        rel="alternate"
+        hreflang={lang.code === 'zh' ? 'zh-Hans' : lang.code}
+        href={new URL(getLocalizedHref(lang.code, routePath), SITE).toString()}
+      />
+    ))}
+
+    <!-- PWA & Icons -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="theme-color" content="#FCF8F8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Video to Frames" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={langMeta.ogLocale} />
+    <meta property="og:site_name" content="Video to Frames" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <!-- Google Tag Manager & GA4 -->
+    <script is:inline async src="https://www.googletagmanager.com/gtm.js?id=GTM-MGRM73F3"></script>
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-7SZG3E7Q8L"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7SZG3E7Q8L');
+    </script>
+
+    <!-- Zero-FOUC Theme & Language Initialization -->
+    <script is:inline>
+      (function () {
+        try {
+          var savedTheme = localStorage.getItem('vtf-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : (prefersDark ? 'dark' : 'light');
+          document.documentElement.dataset.theme = theme;
+          var metaTheme = document.querySelector('meta[name="theme-color"]');
+          if (metaTheme) metaTheme.setAttribute('content', theme === 'dark' ? '#121010' : '#FCF8F8');
+
+          var pageLocale = document.documentElement.getAttribute('data-page-locale') || 'en';
+          if (pageLocale === 'en') {
+            var savedLang = localStorage.getItem('vtf-lang');
+            if (savedLang && /^(en|es|pt|de|fr|ja|zh|ru)$/.test(savedLang)) {
+              document.documentElement.lang = savedLang;
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    {locale !== DEFAULT_LOCALE && (
+      <script is:inline id="vtf-ssr-locale" type="application/json" set:html={JSON.stringify(SSR_TRANSLATIONS[locale])} />
+    )}
+
+    {schemas.map((schema) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+  </head>
+  <body data-meta-title-key={metaTitleKey} data-meta-desc-key={metaDescKey}>
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-MGRM73F3"
+        title="Google Tag Manager"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe>
+    </noscript>
+
+    <a href="#main-content" class="skip-link" data-i18n="nav.skipToContent">
+      {tServer(locale, 'nav.skipToContent')}
+    </a>
+
+    <Navbar locale={locale} />
+
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer locale={locale} />
+    <PwaModal locale={locale} />
+
+    <script>
+      import { initAppShell } from '../scripts/app-shell';
+      initAppShell();
+    </script>
+  </body>
+</html>

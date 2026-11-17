@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getLocalizedHref, tServer, type LocaleCode } from '../i18n/ssr';
+
+interface Props {
+  locale?: LocaleCode;
+}
+
+const { locale = 'en' } = Astro.props;
+const SITE = 'https://video-to-frames.github.io';
+const homeUrl = new URL(getLocalizedHref(locale, '/'), SITE).toString();
+const pageUrl = new URL(getLocalizedHref(locale, '/how-it-works/'), SITE).toString();
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: tServer(locale, 'pages.howTitle'),
+    description: tServer(locale, 'meta.howDescription'),
+    image: `${SITE}/og-image.png`,
+    totalTime: 'PT1M',
+    tool: [{ '@type': 'HowToTool', name: 'HTML5 Video & Canvas API' }],
+    step: [
+      {
+        '@type': 'HowToStep',
+        position: 1,
+        name: tServer(locale, 'landing.step1Title'),
+        text: tServer(locale, 'landing.step1Desc'),
+      },
+      {
+        '@type': 'HowToStep',
+        position: 2,
+        name: tServer(locale, 'landing.step2Title'),
+        text: tServer(locale, 'landing.step2Desc'),
+      },
+      {
+        '@type': 'HowToStep',
+        position: 3,
+        name: tServer(locale, 'landing.step3Title'),
+        text: tServer(locale, 'landing.step3Desc'),
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: tServer(locale, 'nav.breadcrumbHome'),
+        item: homeUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: tServer(locale, 'nav.howItWorks'),
+        item: pageUrl,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  routePath="/how-it-works/"
+  title={tServer(locale, 'meta.howTitle')}
+  description={tServer(locale, 'meta.howDescription')}
+  metaTitleKey="meta.howTitle"
+  metaDescKey="meta.howDescription"
+  jsonLd={jsonLd}
+>
+  <section class="page-hero" aria-labelledby="vtf-how-title">
+    <div class="container">
+      <Breadcrumbs locale={locale} currentKey="nav.howItWorks" />
+      <h1 id="vtf-how-title" data-i18n="pages.howTitle">{tServer(locale, 'pages.howTitle')}</h1>
+      <p data-i18n="pages.howSubtitle">{tServer(locale, 'pages.howSubtitle')}</p>
+    </div>
+  </section>
+
+  <section class="container" aria-labelledby="vtf-how-steps-heading" style="padding-top:2rem;">
+    <h2 id="vtf-how-steps-heading" style="margin:0 0 1rem;font-size:1.35rem;font-weight:850;" data-i18n="pages.howStepsHeading">
+      {tServer(locale, 'pages.howStepsHeading')}
+    </h2>
+    <div class="cards-grid-3">
+      <article class="info-card">
+        <h3 data-i18n="landing.step1Title">{tServer(locale, 'landing.step1Title')}</h3>
+        <p data-i18n="landing.step1Desc">{tServer(locale, 'landing.step1Desc')}</p>
+      </article>
+      <article class="info-card">
+        <h3 data-i18n="landing.step2Title">{tServer(locale, 'landing.step2Title')}</h3>
+        <p data-i18n="landing.step2Desc">{tServer(locale, 'landing.step2Desc')}</p>
+      </article>
+      <article class="info-card">
+        <h3 data-i18n="landing.step3Title">{tServer(locale, 'landing.step3Title')}</h3>
+        <p data-i18n="landing.step3Desc">{tServer(locale, 'landing.step3Desc')}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container" aria-labelledby="vtf-how-sec1-title">
+    <div class="prose-stack">
+      <article class="prose-card">
+        <h2 id="vtf-how-sec1-title" data-i18n="pages.howSec1Title">{tServer(locale, 'pages.howSec1Title')}</h2>
+        <p data-i18n="pages.howSec1Body">{tServer(locale, 'pages.howSec1Body')}</p>
+      </article>
+
+      <article class="prose-card">
+        <h2 data-i18n="pages.howSec2Title">{tServer(locale, 'pages.howSec2Title')}</h2>
+        <p data-i18n="pages.howSec2Body">{tServer(locale, 'pages.howSec2Body')}</p>
+      </article>
+
+      <article class="prose-card">
+        <h2 data-i18n="pages.howSec3Title">{tServer(locale, 'pages.howSec3Title')}</h2>
+        <p data-i18n="pages.howSec3Body">{tServer(locale, 'pages.howSec3Body')}</p>
+      </article>
+
+      <article class="prose-card">
+        <h2 data-i18n="pages.howSec4Title">{tServer(locale, 'pages.howSec4Title')}</h2>
+        <p data-i18n="pages.howSec4Body">{tServer(locale, 'pages.howSec4Body')}</p>
+      </article>
+
+      <div style="text-align:center;padding-top:0.5rem;">
+        <a href={getLocalizedHref(locale, '/')} class="btn-primary btn-lg" data-i18n="pages.backToTool">
+          {tServer(locale, 'pages.backToTool')}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

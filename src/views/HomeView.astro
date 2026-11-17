@@ -1,0 +1,333 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FrameExtractor from '../components/FrameExtractor';
+import { getLocalizedHref, LANGUAGES, tServer, type LocaleCode } from '../i18n/ssr';
+
+interface Props {
+  locale?: LocaleCode;
+}
+
+const { locale = 'en' } = Astro.props;
+const SITE = 'https://video-to-frames.github.io';
+const pageUrl = new URL(getLocalizedHref(locale, '/'), SITE).toString();
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Video to Frames',
+    url: pageUrl,
+    image: `${SITE}/og-image.png`,
+    screenshot: `${SITE}/og-image.png`,
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires HTML5 Video, Canvas API, and JavaScript',
+    license: 'https://opensource.org/licenses/MIT',
+    inLanguage: LANGUAGES.map((l) => (l.code === 'zh' ? 'zh-Hans' : l.code)),
+    description: tServer(locale, 'meta.homeDescription'),
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    featureList: [
+      '100% client-side HTML5 Video and Canvas frame extraction',
+      'Supports MP4, WebM, MOV, AVI, and MKV locally with no upload',
+      'Frame-by-frame scrubbing and exact timestamp jump',
+      'Automatic interval and FPS video to image sequence batch extraction',
+      'Lossless PNG and adjustable-quality JPG export',
+      'Client-side ZIP archive generation via JSZip',
+      'Offline PWA support across 8 languages',
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: tServer(locale, 'landing.stepsTitle'),
+    description: tServer(locale, 'meta.homeDescription'),
+    image: `${SITE}/og-image.png`,
+    totalTime: 'PT1M',
+    tool: [{ '@type': 'HowToTool', name: 'HTML5 Video & Canvas API' }],
+    step: [
+      {
+        '@type': 'HowToStep',
+        position: 1,
+        name: tServer(locale, 'landing.step1Title'),
+        text: tServer(locale, 'landing.step1Desc'),
+      },
+      {
+        '@type': 'HowToStep',
+        position: 2,
+        name: tServer(locale, 'landing.step2Title'),
+        text: tServer(locale, 'landing.step2Desc'),
+      },
+      {
+        '@type': 'HowToStep',
+        position: 3,
+        name: tServer(locale, 'landing.step3Title'),
+        text: tServer(locale, 'landing.step3Desc'),
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: tServer(locale, 'landing.faq1Q'),
+        acceptedAnswer: { '@type': 'Answer', text: tServer(locale, 'landing.faq1A') },
+      },
+      {
+        '@type': 'Question',
+        name: tServer(locale, 'landing.faq2Q'),
+        acceptedAnswer: { '@type': 'Answer', text: tServer(locale, 'landing.faq2A') },
+      },
+      {
+        '@type': 'Question',
+        name: tServer(locale, 'landing.faq3Q'),
+        acceptedAnswer: { '@type': 'Answer', text: tServer(locale, 'landing.faq3A') },
+      },
+      {
+        '@type': 'Question',
+        name: tServer(locale, 'landing.faq4Q'),
+        acceptedAnswer: { '@type': 'Answer', text: tServer(locale, 'landing.faq4A') },
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  routePath="/"
+  title={tServer(locale, 'meta.homeTitle')}
+  description={tServer(locale, 'meta.homeDescription')}
+  metaTitleKey="meta.homeTitle"
+  metaDescKey="meta.homeDescription"
+  jsonLd={jsonLd}
+>
+  <!-- Above-the-Fold Hero & Interactive Tool Box Container -->
+  <section class="hero-section" aria-labelledby="vtf-hero-title">
+    <div class="container">
+      <div class="hero-header">
+        <div class="hero-eyebrow" data-i18n="hero.eyebrow">
+          {tServer(locale, 'hero.eyebrow')}
+        </div>
+        <h1 id="vtf-hero-title" class="hero-title" data-i18n="hero.title">
+          {tServer(locale, 'hero.title')}
+        </h1>
+        <p class="hero-subtitle" data-i18n="hero.subtitle">
+          {tServer(locale, 'hero.subtitle')}
+        </p>
+      </div>
+
+      <FrameExtractor initialLocale={locale} client:load />
+    </div>
+  </section>
+
+  <!-- Below-the-Fold Zero-JS Features Section -->
+  <section class="content-section section-alt" aria-labelledby="vtf-features-title">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="vtf-features-title" data-i18n="landing.featuresTitle">
+          {tServer(locale, 'landing.featuresTitle')}
+        </h2>
+        <p data-i18n="landing.featuresSubtitle">{tServer(locale, 'landing.featuresSubtitle')}</p>
+      </div>
+
+      <div class="cards-grid-3">
+        <article class="info-card">
+          <div class="info-card-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+              <rect x="4" y="11" width="16" height="10" rx="2.5" />
+              <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+            </svg>
+          </div>
+          <h3 data-i18n="landing.feat1Title">{tServer(locale, 'landing.feat1Title')}</h3>
+          <p data-i18n="landing.feat1Desc">{tServer(locale, 'landing.feat1Desc')}</p>
+        </article>
+
+        <article class="info-card">
+          <div class="info-card-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 2" stroke-linecap="round" />
+            </svg>
+          </div>
+          <h3 data-i18n="landing.feat2Title">{tServer(locale, 'landing.feat2Title')}</h3>
+          <p data-i18n="landing.feat2Desc">{tServer(locale, 'landing.feat2Desc')}</p>
+        </article>
+
+        <article class="info-card">
+          <div class="info-card-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+              <rect x="3" y="5" width="13" height="11" rx="2" />
+              <path d="M8 19h11a2 2 0 0 0 2-2V9" stroke-linecap="round" />
+            </svg>
+          </div>
+          <h3 data-i18n="landing.feat3Title">{tServer(locale, 'landing.feat3Title')}</h3>
+          <p data-i18n="landing.feat3Desc">{tServer(locale, 'landing.feat3Desc')}</p>
+        </article>
+
+        <article class="info-card">
+          <div class="info-card-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+              <rect x="3" y="4" width="18" height="16" rx="2.5" />
+              <path d="m4 16 5-5 4 4 3-3 4 4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3 data-i18n="landing.feat4Title">{tServer(locale, 'landing.feat4Title')}</h3>
+          <p data-i18n="landing.feat4Desc">{tServer(locale, 'landing.feat4Desc')}</p>
+        </article>
+
+        <article class="info-card">
+          <div class="info-card-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+              <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
+              <path d="M10 18h4" stroke-linecap="round" />
+            </svg>
+          </div>
+          <h3 data-i18n="landing.feat5Title">{tServer(locale, 'landing.feat5Title')}</h3>
+          <p data-i18n="landing.feat5Desc">{tServer(locale, 'landing.feat5Desc')}</p>
+        </article>
+
+        <article class="info-card">
+          <div class="info-card-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+              <path d="M12 3l2.4 5.2L20 9l-4 4 .9 5.5L12 16l-4.9 2.5L8 13l-4-4 5.6-.8L12 3Z" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3 data-i18n="landing.feat6Title">{tServer(locale, 'landing.feat6Title')}</h3>
+          <p data-i18n="landing.feat6Desc">{tServer(locale, 'landing.feat6Desc')}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3-Step Guide -->
+  <section class="content-section" aria-labelledby="vtf-steps-title">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="vtf-steps-title" data-i18n="landing.stepsTitle">
+          {tServer(locale, 'landing.stepsTitle')}
+        </h2>
+      </div>
+
+      <div class="cards-grid-3">
+        <div class="info-card">
+          <h3 data-i18n="landing.step1Title">{tServer(locale, 'landing.step1Title')}</h3>
+          <p data-i18n="landing.step1Desc">{tServer(locale, 'landing.step1Desc')}</p>
+        </div>
+        <div class="info-card">
+          <h3 data-i18n="landing.step2Title">{tServer(locale, 'landing.step2Title')}</h3>
+          <p data-i18n="landing.step2Desc">{tServer(locale, 'landing.step2Desc')}</p>
+        </div>
+        <div class="info-card">
+          <h3 data-i18n="landing.step3Title">{tServer(locale, 'landing.step3Title')}</h3>
+          <p data-i18n="landing.step3Desc">{tServer(locale, 'landing.step3Desc')}</p>
+        </div>
+      </div>
+
+      <div class="section-cta-wrap">
+        <a href={getLocalizedHref(locale, '/how-it-works/')} class="btn-secondary" data-i18n="landing.readFullGuide">
+          {tServer(locale, 'landing.readFullGuide')}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supported Video Formats -->
+  <section class="content-section section-alt" aria-labelledby="vtf-formats-title">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="vtf-formats-title" data-i18n="landing.formatsTitle">
+          {tServer(locale, 'landing.formatsTitle')}
+        </h2>
+        <p data-i18n="landing.formatsDesc">{tServer(locale, 'landing.formatsDesc')}</p>
+      </div>
+
+      <div class="formats-grid">
+        <article class="format-card">
+          <h3 class="format-badge-lg mono-num">MP4</h3>
+          <p data-i18n="landing.fmtMp4">{tServer(locale, 'landing.fmtMp4')}</p>
+        </article>
+        <article class="format-card">
+          <h3 class="format-badge-lg mono-num">WebM</h3>
+          <p data-i18n="landing.fmtWebm">{tServer(locale, 'landing.fmtWebm')}</p>
+        </article>
+        <article class="format-card">
+          <h3 class="format-badge-lg mono-num">MOV</h3>
+          <p data-i18n="landing.fmtMov">{tServer(locale, 'landing.fmtMov')}</p>
+        </article>
+        <article class="format-card">
+          <h3 class="format-badge-lg mono-num">AVI</h3>
+          <p data-i18n="landing.fmtAvi">{tServer(locale, 'landing.fmtAvi')}</p>
+        </article>
+        <article class="format-card">
+          <h3 class="format-badge-lg mono-num">MKV</h3>
+          <p data-i18n="landing.fmtMkv">{tServer(locale, 'landing.fmtMkv')}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zero-JS FAQ Preview -->
+  <section class="content-section" aria-labelledby="vtf-faq-title">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="vtf-faq-title" data-i18n="landing.faqTitle">
+          {tServer(locale, 'landing.faqTitle')}
+        </h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>
+            <span data-i18n="landing.faq1Q">{tServer(locale, 'landing.faq1Q')}</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </summary>
+          <p class="faq-answer" data-i18n="landing.faq1A">{tServer(locale, 'landing.faq1A')}</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span data-i18n="landing.faq2Q">{tServer(locale, 'landing.faq2Q')}</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </summary>
+          <p class="faq-answer" data-i18n="landing.faq2A">{tServer(locale, 'landing.faq2A')}</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span data-i18n="landing.faq3Q">{tServer(locale, 'landing.faq3Q')}</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </summary>
+          <p class="faq-answer" data-i18n="landing.faq3A">{tServer(locale, 'landing.faq3A')}</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span data-i18n="landing.faq4Q">{tServer(locale, 'landing.faq4Q')}</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </summary>
+          <p class="faq-answer" data-i18n="landing.faq4A">{tServer(locale, 'landing.faq4A')}</p>
+        </details>
+      </div>
+
+      <div class="section-cta-wrap">
+        <a href={getLocalizedHref(locale, '/faq/')} class="btn-secondary" data-i18n="landing.viewAllFaq">
+          {tServer(locale, 'landing.viewAllFaq')}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

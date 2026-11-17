@@ -1,0 +1,12 @@
+---
+import FaqView from '../../views/FaqView.astro';
+import { NON_DEFAULT_LOCALES, type LocaleCode } from '../../i18n/ssr';
+
+export function getStaticPaths() {
+  return NON_DEFAULT_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: LocaleCode };
+---
+
+<FaqView locale={lang} />

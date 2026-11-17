@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getLocalizedHref, tServer, type LocaleCode, type TranslationKey } from '../i18n/ssr';
+
+interface Props {
+  locale?: LocaleCode;
+}
+
+const { locale = 'en' } = Astro.props;
+const SITE = 'https://video-to-frames.github.io';
+const homeUrl = new URL(getLocalizedHref(locale, '/'), SITE).toString();
+const pageUrl = new URL(getLocalizedHref(locale, '/faq/'), SITE).toString();
+
+const faqItems: Array<{ q: TranslationKey; a: TranslationKey }> = [
+  { q: 'landing.faq1Q', a: 'landing.faq1A' },
+  { q: 'landing.faq2Q', a: 'landing.faq2A' },
+  { q: 'landing.faq3Q', a: 'landing.faq3A' },
+  { q: 'landing.faq4Q', a: 'landing.faq4A' },
+  { q: 'pages.faq5Q', a: 'pages.faq5A' },
+  { q: 'pages.faq6Q', a: 'pages.faq6A' },
+  { q: 'pages.faq7Q', a: 'pages.faq7A' },
+  { q: 'pages.faq8Q', a: 'pages.faq8A' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: tServer(locale, item.q),
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: tServer(locale, item.a),
+      },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: tServer(locale, 'nav.breadcrumbHome'),
+        item: homeUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: tServer(locale, 'nav.faq'),
+        item: pageUrl,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  routePath="/faq/"
+  title={tServer(locale, 'meta.faqTitle')}
+  description={tServer(locale, 'meta.faqDescription')}
+  metaTitleKey="meta.faqTitle"
+  metaDescKey="meta.faqDescription"
+  jsonLd={jsonLd}
+>
+  <section class="page-hero" aria-labelledby="vtf-faq-page-title">
+    <div class="container">
+      <Breadcrumbs locale={locale} currentKey="nav.faq" />
+      <h1 id="vtf-faq-page-title" data-i18n="pages.faqTitle">{tServer(locale, 'pages.faqTitle')}</h1>
+      <p data-i18n="pages.faqSubtitle">{tServer(locale, 'pages.faqSubtitle')}</p>
+    </div>
+  </section>
+
+  <section class="container" aria-labelledby="vtf-faq-page-title" style="padding-top:2.25rem;padding-bottom:3.5rem;">
+    <div class="faq-list">
+      {faqItems.map((item, idx) => (
+        <details class="faq-item" open={idx === 0}>
+          <summary>
+            <span data-i18n={item.q}>{tServer(locale, item.q)}</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </summary>
+          <p class="faq-answer" data-i18n={item.a}>{tServer(locale, item.a)}</p>
+        </details>
+      ))}
+    </div>
+
+    <div class="section-cta-wrap">
+      <a href={getLocalizedHref(locale, '/')} class="btn-primary btn-lg" data-i18n="pages.backToTool">
+        {tServer(locale, 'pages.backToTool')}
+      </a>
+    </div>
+  </section>
+</BaseLayout>

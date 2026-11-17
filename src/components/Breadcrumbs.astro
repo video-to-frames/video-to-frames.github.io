@@ -1,0 +1,29 @@
+---
+import { getLocalizedHref, tServer, type LocaleCode, type TranslationKey } from '../i18n/ssr';
+
+interface Props {
+  locale: LocaleCode;
+  currentKey: TranslationKey;
+}
+
+const { locale, currentKey } = Astro.props;
+const homeHref = getLocalizedHref(locale, '/');
+---
+
+<nav
+  class="breadcrumb-nav"
+  data-i18n-aria="nav.breadcrumbAria"
+  aria-label={tServer(locale, 'nav.breadcrumbAria')}
+>
+  <ol class="breadcrumb-list">
+    <li>
+      <a href={homeHref} data-i18n="nav.breadcrumbHome">
+        {tServer(locale, 'nav.breadcrumbHome')}
+      </a>
+    </li>
+    <li class="breadcrumb-sep" aria-hidden="true">/</li>
+    <li aria-current="page" data-i18n={currentKey}>
+      {tServer(locale, currentKey)}
+    </li>
+  </ol>
+</nav>

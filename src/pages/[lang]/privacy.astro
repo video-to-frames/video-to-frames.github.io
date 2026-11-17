@@ -1,0 +1,12 @@
+---
+import PrivacyView from '../../views/PrivacyView.astro';
+import { NON_DEFAULT_LOCALES, type LocaleCode } from '../../i18n/ssr';
+
+export function getStaticPaths() {
+  return NON_DEFAULT_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: LocaleCode };
+---
+
+<PrivacyView locale={lang} />

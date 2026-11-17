@@ -1,0 +1,75 @@
+---
+import { DEFAULT_LOCALE, getLocalizedHref, tServer, type LocaleCode } from '../i18n/ssr';
+import BrandIcon from './BrandIcon.astro';
+
+interface Props {
+  locale?: LocaleCode;
+}
+
+const { locale = DEFAULT_LOCALE } = Astro.props;
+const homeHref = getLocalizedHref(locale, '/');
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href={homeHref} class="brand-link" style="padding-left:0;margin-bottom:0.5rem;">
+          <BrandIcon size={32} />
+          <span data-i18n="nav.brandTitle">{tServer(locale, 'nav.brandTitle')}</span>
+        </a>
+        <p style="margin:0;color:var(--text-secondary);font-size:0.92rem;max-width:320px;" data-i18n="footer.tagline">
+          {tServer(locale, 'footer.tagline')}
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h2 id="vtf-footer-guides" data-i18n="footer.pagesTitle">{tServer(locale, 'footer.pagesTitle')}</h2>
+        <nav aria-labelledby="vtf-footer-guides">
+          <ul class="footer-links">
+            <li><a href={getLocalizedHref(locale, '/how-it-works/')} data-i18n="nav.howItWorks">{tServer(locale, 'nav.howItWorks')}</a></li>
+            <li><a href={getLocalizedHref(locale, '/privacy/')} data-i18n="nav.privacy">{tServer(locale, 'nav.privacy')}</a></li>
+            <li><a href={getLocalizedHref(locale, '/faq/')} data-i18n="nav.faq">{tServer(locale, 'nav.faq')}</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer-col">
+        <h2 id="vtf-footer-project" data-i18n="footer.projectTitle">{tServer(locale, 'footer.projectTitle')}</h2>
+        <nav aria-labelledby="vtf-footer-project">
+          <ul class="footer-links">
+            <li>
+              <a href="https://github.com/video-to-frames/video-to-frames.github.io" target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="/sitemap.xml">Sitemap</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer-col">
+        <h2 data-i18n="footer.supportTitle">{tServer(locale, 'footer.supportTitle')}</h2>
+        <p style="margin:0 0 0.75rem;color:var(--text-secondary);font-size:0.9rem;" data-i18n="footer.supportDesc">
+          {tServer(locale, 'footer.supportDesc')}
+        </p>
+        <a
+          href="https://kisharadilshan.gumroad.com/coffee"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary btn-sm"
+          data-i18n="nav.supportCta"
+        >
+          {tServer(locale, 'nav.supportCta')}
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {new Date().getFullYear()} Video to Frames</span>
+      <span data-i18n="footer.copyright">{tServer(locale, 'footer.copyright')}</span>
+    </div>
+  </div>
+</footer>
