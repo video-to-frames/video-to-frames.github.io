@@ -925,7 +925,15 @@ export default function FrameExtractor({ initialLocale = DEFAULT_LOCALE }: Frame
                   </svg>
                   {tr('tool.captureFrameBtn')}
                 </button>
-                <p class="shortcut-note">{tr('tool.shortcutHint')}</p>
+                <div class="shortcut-note">
+                  {tr('tool.shortcutHint')
+                    .split('•')
+                    .map((item) => (
+                      <span class="shortcut-chip" key={item}>
+                        {item.trim()}
+                      </span>
+                    ))}
+                </div>
               </div>
             )}
 
