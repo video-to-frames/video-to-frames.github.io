@@ -41,6 +41,7 @@ export interface TranslationMap {
   // Hero
   'hero.eyebrow': string;
   'hero.title': string;
+  'hero.titleSub': string;
   'hero.subtitle': string;
 
   // Tool Workspace

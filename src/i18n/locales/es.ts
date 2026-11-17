@@ -38,7 +38,8 @@ export const es: TranslationMap = {
   'pwa.closeModal': 'Cerrar',
 
   'hero.eyebrow': '100% Local • Sin Subidas',
-  'hero.title': 'Extrae fotogramas nítidos de cualquier video.',
+  'hero.title': 'Extrae fotogramas de cualquier video',
+  'hero.titleSub': '(100% Privado)',
   'hero.subtitle': 'Suelta un video para capturar fotograma a fotograma o extraer lotes en PNG y JPG directo en tu navegador.',
 
   'tool.workspaceHeading': 'Área de trabajo del extractor de fotogramas',

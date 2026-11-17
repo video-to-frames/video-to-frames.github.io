@@ -38,7 +38,8 @@ export const de: TranslationMap = {
   'pwa.closeModal': 'Schließen',
 
   'hero.eyebrow': '100% Lokal • Kein Upload',
-  'hero.title': 'Gestochen scharfe Frames aus jedem Video.',
+  'hero.title': 'Frames aus jedem Video extrahieren',
+  'hero.titleSub': '(100% Privat)',
   'hero.subtitle': 'Video ablegen, exakt bildgenau scrubben oder ganze Serien als PNG & JPG direkt im Browser speichern.',
 
   'tool.workspaceHeading': 'Arbeitsbereich des Video-Frame-Extraktors',

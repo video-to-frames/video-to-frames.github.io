@@ -114,8 +114,11 @@ const jsonLd = [
         <div class="hero-eyebrow" data-i18n="hero.eyebrow">
           {tServer(locale, 'hero.eyebrow')}
         </div>
-        <h1 id="vtf-hero-title" class="hero-title" data-i18n="hero.title">
-          {tServer(locale, 'hero.title')}
+        <h1 id="vtf-hero-title" class="hero-title">
+          <span data-i18n="hero.title">{tServer(locale, 'hero.title')}</span>{' '}
+          <span class="hero-title-sub" data-i18n="hero.titleSub">
+            {tServer(locale, 'hero.titleSub')}
+          </span>
         </h1>
         <p class="hero-subtitle" data-i18n="hero.subtitle">
           {tServer(locale, 'hero.subtitle')}

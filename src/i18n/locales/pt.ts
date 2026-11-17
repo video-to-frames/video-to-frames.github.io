@@ -38,7 +38,8 @@ export const pt: TranslationMap = {
   'pwa.closeModal': 'Fechar',
 
   'hero.eyebrow': '100% Local • Sem Uploads',
-  'hero.title': 'Extraia quadros nítidos de qualquer vídeo.',
+  'hero.title': 'Extraia quadros de qualquer vídeo',
+  'hero.titleSub': '(100% Privado)',
   'hero.subtitle': 'Solte um vídeo para navegar quadro a quadro ou extrair lotes em PNG e JPG direto no navegador.',
 
   'tool.workspaceHeading': 'Área de trabalho do extrator de quadros',

@@ -38,7 +38,8 @@ export const ja: TranslationMap = {
   'pwa.closeModal': '閉じる',
 
   'hero.eyebrow': '100% クライアント処理 • 送信ゼロ',
-  'hero.title': '動画から鮮明な静止画を瞬時に抽出。',
+  'hero.title': '動画から静止画を瞬時に抽出',
+  'hero.titleSub': '(100% プライベート)',
   'hero.subtitle': '動画をドロップするだけで、1フレーム単位の確認やPNG/JPGの一括書き出しがブラウザ内で完結します。',
 
   'tool.workspaceHeading': '動画フレーム抽出ワークスペース',

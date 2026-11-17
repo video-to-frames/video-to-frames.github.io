@@ -38,7 +38,8 @@ export const en: TranslationMap = {
   'pwa.closeModal': 'Close',
 
   'hero.eyebrow': 'Client-Side Video to Frames • No Upload',
-  'hero.title': 'Extract Frames from Video (100% Private)',
+  'hero.title': 'Extract Frames from Video',
+  'hero.titleSub': '(100% Private)',
   'hero.subtitle': 'Free browser-based video to image converter. Capture a screenshot from video frame by frame or extract MP4 to PNG frames and JPG sequences locally.',
 
   'tool.workspaceHeading': 'Interactive Video Frame Extractor Workspace',

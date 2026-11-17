@@ -38,7 +38,8 @@ export const fr: TranslationMap = {
   'pwa.closeModal': 'Fermer',
 
   'hero.eyebrow': '100% Local • Zéro Envoi',
-  'hero.title': 'Extrayez des images nettes de toute vidéo.',
+  'hero.title': 'Extrayez les images de toute vidéo',
+  'hero.titleSub': '(100% Privé)',
   'hero.subtitle': 'Déposez une vidéo pour naviguer image par image ou extraire par lot en PNG et JPG dans votre navigateur.',
 
   'tool.workspaceHeading': 'Espace de travail de l’extracteur d’images',

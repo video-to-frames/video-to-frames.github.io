@@ -38,7 +38,8 @@ export const zh: TranslationMap = {
   'pwa.closeModal': '关闭',
 
   'hero.eyebrow': '100% 纯前端处理 • 零服务器上传',
-  'hero.title': '从任意视频中精准提取高清帧。',
+  'hero.title': '从任意视频中精准提取高清帧',
+  'hero.titleSub': '(100% 本地隐私)',
   'hero.subtitle': '拖入本地视频，立即逐帧微调或按频率批量导出原画质 PNG 与 JPG 图片。',
 
   'tool.workspaceHeading': '视频抽帧交互工作区',
